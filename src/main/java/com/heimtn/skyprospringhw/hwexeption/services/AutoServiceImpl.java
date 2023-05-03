@@ -1,22 +1,22 @@
 package com.heimtn.skyprospringhw.hwexeption.services;
 
-import com.heimtn.skyprospringhw.hwexeption.exceptions.WrongLoginException;
-import com.heimtn.skyprospringhw.hwexeption.exceptions.WrongPasswordException;
+
 import org.springframework.stereotype.Service;
 
 @Service
 public class AutoServiceImpl implements AutoService{
     @Override
-    public void autorization(String login, String password, String confirmPassword) {
-        if (login.length() > 20){
-            throw new WrongLoginException();
-        }
-        if(password.length() >= 20){
-            throw new WrongPasswordException();
-        }
-        if( password.equals(confirmPassword)) {
-            System.out.println("Все круто!");
-        }
-        else throw new WrongPasswordException();
+    public boolean autoLogin(String login) {
+        return login.length() <= 20 && login.length() > 0 && checkStr(login);
+    }
+
+    @Override
+    public boolean autoPass(String password, String confirmPassword) {
+        return password.length() < 20 && password.length() > 0 && password.equals(confirmPassword) && checkStr(password);
+    }
+
+    private boolean checkStr(String str){
+        if(str.matches("^[a-zA-Z0-9\\_]*$")) return true;
+        else return false;
     }
 }
