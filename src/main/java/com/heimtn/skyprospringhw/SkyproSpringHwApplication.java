@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SkyproSpringHwApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SkyproSpringHwApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SkyproSpringHwApplication.class, args);
+    }
 
 }
