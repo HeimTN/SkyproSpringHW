@@ -1,4 +1,4 @@
-package com.heimtn.skyprospringhw.hwcollections.exceptions;
+package com.heimtn.skyprospringhw.hwcollectionsandSM.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
