@@ -30,13 +30,16 @@ public class DepartmentServiceImpl implements DepartmentService{
 
     @Override
     public List<Employee> getDepartListEmp(Integer depart){
-        return employeeList.get(depart);
+        if(employeeList.containsKey(depart)) {
+            return employeeList.get(depart);
+        }
+        else throw new IllegalArgumentException("Данного департамента в базе нет");
     }
 
     @Override
     public Integer salarySum(Integer depart){
         Integer sum = 0;
-        for(Employee emp : employeeList.get(depart)){
+        for(Employee emp : getDepartListEmp(depart)){
             sum = sum + emp.getSalary();
         }
         return sum;
@@ -45,7 +48,7 @@ public class DepartmentServiceImpl implements DepartmentService{
     @Override
     public Integer salaryMax(Integer depart){
         Integer max = Integer.MIN_VALUE;
-        for(Employee emp : employeeList.get(depart)){
+        for(Employee emp : getDepartListEmp(depart)){
             if(max < emp.getSalary()) max = emp.getSalary();
         }
         return max;
@@ -54,7 +57,7 @@ public class DepartmentServiceImpl implements DepartmentService{
     @Override
     public Integer salaryMin(Integer depart){
         Integer min = Integer.MAX_VALUE;
-        for(Employee emp : employeeList.get(depart)){
+        for(Employee emp : getDepartListEmp(depart)){
             if(min > emp.getSalary()) min = emp.getSalary();
         }
         return min;
