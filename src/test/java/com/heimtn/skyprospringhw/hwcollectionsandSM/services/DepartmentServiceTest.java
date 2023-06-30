@@ -9,9 +9,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -44,10 +43,16 @@ public class DepartmentServiceTest {
     @Test
     public void getDepartListEmp(){
         List<Employee> actual = departmentService.getDepartListEmp(10);
-        List<Employee> actual1 = departmentService.getDepartListEmp(1);
+        List<Employee> actual1 = departmentService.getDepartListEmp(3);
+        List<Employee> actual2 = departmentService.getDepartListEmp(5);
 
-        Assertions.assertEquals(10,actual.get(Mockito.anyInt()).getDepartment());
-        Assertions.assertEquals(1,actual1.get(Mockito.anyInt()).getDepartment());
+        List<Employee> expected = employeeService.getList().stream().filter(e -> e.getDepartment() == 10).toList();
+        List<Employee> expected1 = employeeService.getList().stream().filter(e -> e.getDepartment() == 3).toList();
+        List<Employee> expected2 = employeeService.getList().stream().filter(e -> e.getDepartment() == 5).toList();
+
+        Assertions.assertEquals(expected, actual);
+        Assertions.assertEquals(expected1, actual1);
+        Assertions.assertEquals(expected2, actual2);
     }
 
     @Test
@@ -106,11 +111,28 @@ public class DepartmentServiceTest {
 
     @Test
     public void getMapEmp(){
-        Map<Integer, List<Employee>> actual = departmentService.getMapEmp();
+        Map<Integer, List<Employee>> actualMap = departmentService.getMapEmp();
 
-        Assertions.assertEquals(10, actual.get(10).get(Mockito.anyInt()).getDepartment());
-        Assertions.assertEquals(1, actual.get(1).get(Mockito.anyInt()).getDepartment());
-        Assertions.assertEquals(3, actual.get(3).get(Mockito.anyInt()).getDepartment());
-        Assertions.assertEquals(5, actual.get(5).get(Mockito.anyInt()).getDepartment());
+        Map<Integer, List<Employee>> expectedMap = new HashMap<>();;
+        List<Employee> temp = employeeService.getList().stream().sorted(Comparator.comparing(Employee::getDepartment)).toList();
+        for(Employee emp : temp){
+            if(!expectedMap.containsKey(emp.getDepartment())){
+                List<Employee> temp1 = employeeService.getList().stream().filter(e -> Objects.equals(e.getDepartment(), emp.getDepartment())).toList();
+                expectedMap.put(emp.getDepartment(), temp1);
+            }
+        }
+        List<Employee> actual = departmentService.getMapEmp().get(10);
+        List<Employee> actual1 = departmentService.getMapEmp().get(5);
+        List<Employee> actual2 = departmentService.getMapEmp().get(3);
+
+        List<Employee> expected = expectedMap.get(10);
+        List<Employee> expected1 = expectedMap.get(5);
+        List<Employee> expected2 = expectedMap.get(3);
+
+        Assertions.assertEquals(expectedMap, actualMap);
+        Assertions.assertEquals(expected, actual);
+        Assertions.assertEquals(expected1, actual1);
+        Assertions.assertEquals(expected2, actual2);
+
     }
 }
