@@ -1,14 +1,18 @@
-package com.heimtn.skyprospringhw.hwcollections.objects;
+package com.heimtn.skyprospringhw.hwcollectionsandSM.objects;
 
 import java.util.Objects;
 
 public class Employee {
     private final String firstName;
     private final String lastName;
+    private final Integer salary;
+    private final Integer department;
 
-    public Employee(String firstName, String lastName){
+    public Employee(String firstName, String lastName, Integer salary, Integer department){
         this.firstName = firstName;
         this.lastName = lastName;
+        this.salary = salary;
+        this.department = department;
     }
     public String getFirstName(){
         return firstName;
@@ -16,6 +20,8 @@ public class Employee {
     public String getLastName(){
         return lastName;
     }
+    public Integer getSalary(){return salary;}
+    public Integer getDepartment(){return department;}
 
     @Override
     public boolean equals(Object o) {
