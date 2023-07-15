@@ -15,23 +15,51 @@ public class IntegerListImpl implements IntegerList {
         this.size = 0;
     }
 
+    //Расширение
+    private void grow(){
+        int sizeTemp = (int)(integerList.length*1.5);
+        size = sizeTemp;
+        Integer[] temp = new Integer[sizeTemp];
+        for(int i = 0; i < integerList.length; i++){
+            temp[i] = integerList[i];
+        }
+        integerList = temp;
+    }
+
     //Сортировка
-    private void sort(){
-        for (int i = 0; i < integerList.length -1; i++) {
-            for (int j = 0; j < integerList.length-1-i; j++) {
-                if(integerList[j] > integerList[j+1]){
-                    int temp = integerList[j];
-                    integerList[j] = integerList[j+1];
-                    integerList[j+1] = temp;
-                }
-            }
+    private void sort(int begin, int end){
+        if(begin < end){
+            int partitionIndex = partition(begin, end);
+
+            sort(begin, partitionIndex - 1);
+            sort(partitionIndex + 1, end);
         }
     }
+    private int partition(int begin, int end){
+        int pivot = integerList[end];
+        int i = (begin - 1);
+
+        for(int j = begin; j < end; j++){
+            if(integerList[j] <= pivot){
+                i++;
+                int temp = integerList[i];
+                integerList[i] = integerList[j];
+                integerList[j] = temp;
+            }
+        }
+
+        int temp = integerList[i+1];
+        integerList[i+1] = integerList[end];
+        integerList[end] = temp;
+        return i + 1;
+    }
+
+
 
     private Integer search(Integer item){
         int min = 0;
         int max = integerList.length - 1;
-        sort();
+        sort(0, integerList.length-1);
         while (min <= max){
             int mid = (min+max)/2;
             if(item.equals(integerList[mid])){
@@ -78,8 +106,8 @@ public class IntegerListImpl implements IntegerList {
     @Override
     public Integer add(Integer item) {
         if(item != null) {
-            if(integerList[size] != null) addCell();
-            integerList[size] = item;
+            if(integerList[size] != null) grow();
+            integerList[size+1] = item;
             return integerList[size];
         }
         throw new IntegerListNullArgumentException("item == null");
