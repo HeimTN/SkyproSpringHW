@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/exam/java")
+@RequestMapping("/exam/math")
 public class MathQuestionController {
     private QuestionService service;
 

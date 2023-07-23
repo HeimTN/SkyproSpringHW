@@ -46,10 +46,9 @@ public class JavaQuestionService implements QuestionService{
         else {
             Random random = new Random();
             List<Question> questionList = getAll().stream().toList();
-            Question result = questionList.get(random.nextInt(0, questionList.size()+1));
-            if (result != null) {
+            Question result = questionList.get(random.nextInt(0, questionList.size()));
                 return result;
-            } else return getRandomQuestion();
+
         }
     }
 }

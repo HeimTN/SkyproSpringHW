@@ -10,11 +10,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class ExaminerServiceImpl implements ExaminerService{
-    private Collection<QuestionService> questionServices;
+    private Collection<QuestionService> questionServices = new ArrayList<>();
     private final Random random = new Random();
 
-   //Тут Intellij пищет что ошибка, якобы он не видит эти компоненты или типо того, загуглил в чем проблема, ребятки говорят не обращать внимания
-    //Если всетаки я ошибся прошу обьяснить как тогда это правильно подвязать
     public ExaminerServiceImpl(@Qualifier("javaS") QuestionService questionService1,
                                @Qualifier("mathS") QuestionService questionService2){
         this.questionServices.add(questionService1);
@@ -27,8 +25,10 @@ public class ExaminerServiceImpl implements ExaminerService{
         questionServices.stream().forEach(e -> countQuest.set(countQuest.get() + e.getAll().size()));
         if(countQuest.get() >= amount){
             Set<Question> result = new HashSet<>();
+            List<QuestionService> temp = questionServices.stream().toList();
             for (int i = 0; i < amount; i++) {
-                result = addQuestionInCollection(result);
+                //result = addQuestionInCollection(result);
+                result.add(temp.get(random.nextInt(0, temp.size())).getRandomQuestion());
             }
             return result;
         }

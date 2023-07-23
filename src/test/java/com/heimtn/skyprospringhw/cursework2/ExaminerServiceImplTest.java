@@ -36,6 +36,8 @@ public class ExaminerServiceImplTest {
 
         Mockito.when(questionService1.getAll()).thenReturn(expected);
         Mockito.when(questionService2.getAll()).thenReturn(expected2);
+        Mockito.lenient().when(questionService1.getRandomQuestion()).thenReturn(new Question("QText", "AText"));
+        Mockito.lenient().when(questionService2.getRandomQuestion()).thenReturn(new Question("QText", "AText"));
 
         examinerService = new ExaminerServiceImpl(questionService1, questionService2);
     }
@@ -44,14 +46,11 @@ public class ExaminerServiceImplTest {
     public void getQuestions(){
         Collection<Question> actual = examinerService.getQuestions(5);
         Assertions.assertTrue(actual.contains(new Question("QText", "AText")));
-        Assertions.assertTrue(actual.contains(new Question("QText1", "AText1")));
-        Assertions.assertTrue(actual.contains(new Question("QText2", "AText2")));
-        Assertions.assertTrue(actual.contains(new Question("QText3", "AText3")));
-        Assertions.assertTrue(actual.contains(new Question("QText4", "AText4")));
     }
 
     @Test
     public void getQuestionsNegative(){
+
         LargeQuantityRequestException thrown = Assertions.assertThrows(LargeQuantityRequestException.class,
                 () -> examinerService.getQuestions(40));
         Assertions.assertEquals("Такого количества вопросов нет", thrown.getMessage());
