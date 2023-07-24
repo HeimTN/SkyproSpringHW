@@ -12,7 +12,7 @@ import java.util.Set;
 
 
 @Repository
-@Qualifier("matth")
+@Qualifier("math")
 public class MathQuestionRepository implements QuestionRepository {
     private Set<Question> questions = new HashSet<>();
 

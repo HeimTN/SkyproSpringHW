@@ -1,5 +1,6 @@
 package com.heimtn.skyprospringhw.cursework2.controllers;
 
+import com.heimtn.skyprospringhw.cursework2.exceptions.MethodNotAllowedException;
 import com.heimtn.skyprospringhw.cursework2.objects.Question;
 import com.heimtn.skyprospringhw.cursework2.services.MathQuestionService;
 import com.heimtn.skyprospringhw.cursework2.services.QuestionService;
@@ -27,12 +28,12 @@ public class MathQuestionController {
     @GetMapping("/add")
     public Question add(@RequestParam String question,
                         @RequestParam String answer){
-        return service.add(question, answer);
+        throw new MethodNotAllowedException("На данный момент добавление математических вопросов не доступно");
     }
 
     @GetMapping("/remove")
     public Question remove(@RequestParam String question,
                            @RequestParam String answer){
-        return service.remove(new Question(question, answer));
+        throw new MethodNotAllowedException("На данный момент добавление математических вопросов не доступно");
     }
 }
